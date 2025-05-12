@@ -170,10 +170,9 @@ Here’s the beautifully structured to-do list from earlier, formatted for easy 
 | Cal.com Stripe Embed
 | Test responsiveness across devices                                                       | 🔲 Pending |
 
-### 5. Testing
+### 5. Deployment and Testing
 | Task                                                                                       | Status   |
-|-------------------------------------------------------------------------------------------|----------|
-| Validate smoothness of animations and ensure compatibility                               | 🔲 Pending |
+|-------------------------------------------------------------------------------------------|----------| Resolve redirects with DNS for gen.xyz, GoDaddy and make sure it renders | 🔲 Pending | Validate smoothness of animations and ensure compatibility                               | 🔲 Pending |
 | Conduct browser and multi-device compatibility tests                                     | 🔲 Pending |
 | Test overall performance and scalability                                                 | 🔲 Pending |
 
