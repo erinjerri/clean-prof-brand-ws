@@ -38,6 +38,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       categories: true,
       meta: true,
       publishedAt: true, // (optional, for display)
+      sort: '-publishedAt',
     },
   })
 
