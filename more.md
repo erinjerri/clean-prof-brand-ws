@@ -140,8 +140,6 @@ Here’s the beautifully structured to-do list from earlier, formatted for easy 
 | Change UI - hex colors of buttons, regular and on hover                              | 🔲 Pending |
 | Modify pagination to show numbers and arrows                                        | 🔲 Pending |
 
-
-
 ### 2. Base Components
 | Task                                                                                       | Status   |
 |-------------------------------------------------------------------------------------------|----------|
