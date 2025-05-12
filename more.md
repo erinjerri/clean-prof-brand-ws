@@ -126,7 +126,7 @@ I may plan a migration to S3 with AWS for faster rendering of assets in the futu
 ## Updated To-Do List
 Here’s the beautifully structured to-do list from earlier, formatted for easy reference:
 
-### 1. PayloadCMS Admin Panel
+### 1. PayloadCMS Admin Panel, Base Singletons
 | Task                                                                                       | Status   |
 |-------------------------------------------------------------------------------------------|----------|
 | Create initial repo and configure environment variables with MongoDB, etc.                | ✅ Done   |
@@ -135,6 +135,12 @@ Here’s the beautifully structured to-do list from earlier, formatted for easy 
 | Create main hero block                                                                     | 🔲 Pending |
 | Feature pop-up modal with download PDF                                                    | 🔲 Pending |
 | Add in media asset inline posting for Lexical                                         | 🔲 Pending |
+| Add in site nav                                         | 🔲 Pending |
+| Add in footer                                         | 🔲 Pending |
+| Change UI - hex colors of buttons, regular and on hover                              | 🔲 Pending |
+| Modify pagination to show numbers and arrows                                        | 🔲 Pending |
+
+
 
 ### 2. Base Components
 | Task                                                                                       | Status   |
@@ -171,4 +177,13 @@ Here’s the beautifully structured to-do list from earlier, formatted for easy 
 | Conduct browser and multi-device compatibility tests                                     | 🔲 Pending |
 | Test overall performance and scalability                                                 | 🔲 Pending |
 
----
+### 5. Content 
+| Task                                                                                       | Status   |
+|-------------------------------------------------------------------------------------------|----------|
+| Added CYRA - Creating Your Reality Agent page                                | 🔲 Pending |
+| Add Download Page  | 🔲 Pending |
+| Add Buy Page  | 🔲 Pending |
+| Add Experiences Page  | 🔲 Pending |
+| Add Experiences Detail  | 🔲 Pending |
+| Add Watch Page  | 🔲 Pending |
+| Add Watch Detail  | 🔲 Pending |
