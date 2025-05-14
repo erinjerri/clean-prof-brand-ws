@@ -11,3 +11,6 @@ public/media/
 
 public/robots.txt
 public/sitemap*.xml
+
+.rscinfo 
+.next/server/server-reference-manifest.json

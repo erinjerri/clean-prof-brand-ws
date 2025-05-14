@@ -13,7 +13,8 @@ const columnFields: Field[] = [
   {
     name: 'size',
     type: 'select',
-    defaultValue: 'oneThird',
+    defaultValue: 'half',
+    label: 'Column Width',
     options: [
       {
         label: 'One Third',
@@ -28,7 +29,7 @@ const columnFields: Field[] = [
         value: 'twoThirds',
       },
       {
-        label: 'Full',
+        label: 'Full Width',
         value: 'full',
       },
     ],
@@ -36,28 +37,35 @@ const columnFields: Field[] = [
   {
     name: 'richText',
     type: 'richText',
+    label: 'Text Content',
     editor: lexicalEditor({
-      features: ({ rootFeatures }) => {
-        return [
-          ...rootFeatures,
-          HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
-          FixedToolbarFeature(),
-          InlineToolbarFeature(),
-        ]
-      },
+      features: ({ rootFeatures }) => [
+        ...rootFeatures,
+        HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+        FixedToolbarFeature(),
+        InlineToolbarFeature(),
+      ],
     }),
-    label: false,
+  },
+  {
+    name: 'media',
+    type: 'upload',
+    relationTo: 'media',
+    label: 'Optional Media Asset',
+    required: false,
+    admin: {
+      condition: () => true, // always show
+    },
   },
   {
     name: 'enableLink',
     type: 'checkbox',
+    label: 'Include Link?',
   },
   link({
     overrides: {
       admin: {
-        condition: (_data, siblingData) => {
-          return Boolean(siblingData?.enableLink)
-        },
+        condition: (_data, siblingData) => Boolean(siblingData?.enableLink),
       },
     },
   }),
@@ -66,14 +74,37 @@ const columnFields: Field[] = [
 export const Content: Block = {
   slug: 'content',
   interfaceName: 'ContentBlock',
+  labels: {
+    singular: 'Content Columns',
+    plural: 'Content Columns',
+  },
   fields: [
     {
       name: 'columns',
+      label: 'Columns',
       type: 'array',
       admin: {
         initCollapsed: true,
       },
       fields: columnFields,
+    },
+    {
+      name: 'backgroundColor',
+      type: 'select',
+      label: 'Background Color',
+      required: false,
+      options: [
+        { label: 'None', value: 'none' },
+        { label: 'Light Gray', value: 'gray' },
+        { label: 'Dark', value: 'dark' },
+      ],
+      defaultValue: 'none',
+    },
+    {
+      name: 'padding',
+      type: 'checkbox',
+      label: 'Enable Section Padding?',
+      defaultValue: true,
     },
   ],
 }

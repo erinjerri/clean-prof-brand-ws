@@ -456,6 +456,7 @@ export interface ContentBlock {
           };
           [k: string]: unknown;
         } | null;
+        media?: (string | null) | Media;
         enableLink?: boolean | null;
         link?: {
           type?: ('reference' | 'custom') | null;
@@ -479,6 +480,8 @@ export interface ContentBlock {
         id?: string | null;
       }[]
     | null;
+  backgroundColor?: ('none' | 'gray' | 'dark') | null;
+  padding?: boolean | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'content';
@@ -1066,6 +1069,7 @@ export interface ContentBlockSelect<T extends boolean = true> {
     | {
         size?: T;
         richText?: T;
+        media?: T;
         enableLink?: T;
         link?:
           | T
@@ -1079,6 +1083,8 @@ export interface ContentBlockSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  backgroundColor?: T;
+  padding?: T;
   id?: T;
   blockName?: T;
 }
