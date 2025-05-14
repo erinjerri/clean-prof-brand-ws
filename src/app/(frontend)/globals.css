@@ -10,7 +10,8 @@
   h5,
   h6 {
     font-size: unset;
-    font-weight: unset;
+    font-weight: 700;
+    font-family: 'Jost', ui-sans-serif, system-ui, sans-serif;
   }
 
   :root {
