@@ -31,27 +31,28 @@
       }
     ],
     "paths": {
-      "@payload-config": [
-        "./src/payload.config.ts"
-      ],
+      "@payload-config": ["./src/payload.config.ts"],
       "@components/*": [
-        "./src/app/(frontend)/components/*"
+        "./src/app/(frontend)/components/*",
+        "./src/app/components/*"
       ],
       "@blocks/*": [
-        "./src/app/(frontend)/blocks/*"
+        "./src/app/(frontend)/blocks/*",
+        "./src/app/blocks/*"
       ],
       "@heros/*": [
-        "./src/app/(frontend)/heros/*"
+        "./src/app/(frontend)/heros/*",
+        "./src/app/heros/*"
       ],
       "@utilities/*": [
-        "./src/app/(frontend)/utilities/*"
+        "./src/app/(frontend)/utilities/*",
+        "./src/app/utilities/*"
       ],
       "@endpoints/*": [
-        "./src/app/(frontend)/endpoints/*"
+        "./src/app/(frontend)/endpoints/*",
+        "./src/app/endpoints/*"
       ],
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
