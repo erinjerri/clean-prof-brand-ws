@@ -38,14 +38,14 @@ export async function generateStaticParams() {
 }
 
 type Args = {
-  params: Promise<{
+  params: {
     slug?: string
-  }>
+  }
 }
 
-export default async function Page({ params: paramsPromise }: Args) {
+export default async function Page({ params }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { slug = 'home' } = await paramsPromise
+  const { slug = 'home' } = params
   const url = '/' + slug
 
   let page: RequiredDataFromCollectionSlug<'pages'> | null
@@ -79,8 +79,8 @@ export default async function Page({ params: paramsPromise }: Args) {
   )
 }
 
-export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { slug = 'home' } = await paramsPromise
+export async function generateMetadata({ params }: Args): Promise<Metadata> {
+  const { slug = 'home' } = params
   const page = await queryPageBySlug({
     slug,
   })

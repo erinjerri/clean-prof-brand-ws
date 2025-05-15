@@ -37,9 +37,24 @@
       "react": [
         "./node_modules/@types/react"
       ],
+      "@components/*": [
+        "./src/app/(frontend)/components/*"
+      ],
+      "@blocks/*": [
+        "./src/app/(frontend)/blocks/*"
+      ],
+      "@heros/*": [
+        "./src/app/(frontend)/heros/*"
+      ],
+      "@utilities/*": [
+        "./src/app/(frontend)/utilities/*"
+      ],
+      "@endpoints/*": [
+        "./src/app/(frontend)/endpoints/*"
+      ],
       "@/*": [
         "./src/*"
-      ],
+      ]
     }
   },
   "include": [
