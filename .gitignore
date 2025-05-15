@@ -3,6 +3,7 @@ dist / media
 node_modules
 .DS_Store
 .env
+.env.*
 .next/
 .vercel
 
@@ -14,3 +15,4 @@ public/sitemap*.xml
 
 .rscinfo 
 .next/server/server-reference-manifest.json
+
