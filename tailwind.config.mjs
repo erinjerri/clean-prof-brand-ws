@@ -6,8 +6,8 @@ const config = {
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './app/**/*.{js,ts,tsx}',
+    './src/**/*.{js,ts,tsx}',
   ],
   darkMode: ['selector', '[data-theme="dark"]'],
   plugins: [tailwindcssAnimate, typography],

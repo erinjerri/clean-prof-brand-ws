@@ -3,7 +3,7 @@ dist / media
 node_modules
 .DS_Store
 .env
-.next
+.next/
 .vercel
 
 # Payload default media upload directory
