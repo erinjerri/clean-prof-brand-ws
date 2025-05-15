@@ -45,3 +45,11 @@ export const defaultLexical = lexicalEditor({
     }),
   ],
 })
+
+import type { RichTextField } from 'payload/types'
+
+export const messageRichText: RichTextField = {
+  name: 'message',
+  type: 'richText',
+  editor: defaultLexical,
+}

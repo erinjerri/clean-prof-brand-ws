@@ -1,18 +1,12 @@
 {
   "compilerOptions": {
-    /* Strictness */
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-    
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "esModuleInterop": true,
     "target": "ES2022",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES2022"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "allowJs": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
@@ -31,28 +25,29 @@
       }
     ],
     "paths": {
-      "@payload-config": ["./src/payload.config.ts"],
+      "@payload-config": ["./payload.config.ts"],
       "@components/*": [
-        "./src/app/(frontend)/components/*",
-        "./src/app/components/*"
+        "./app/(frontend)/components/*",
+        "./app/components/*"
       ],
       "@blocks/*": [
-        "./src/app/(frontend)/blocks/*",
-        "./src/app/blocks/*"
+        "./app/(frontend)/blocks/*",
+        "./app/blocks/*"
       ],
       "@heros/*": [
-        "./src/app/(frontend)/heros/*",
-        "./src/app/heros/*"
+        "./app/(frontend)/heros/*",
+        "./app/heros/*"
       ],
       "@utilities/*": [
-        "./src/app/(frontend)/utilities/*",
-        "./src/app/utilities/*"
+        "./app/(frontend)/utilities/*",
+        "./app/utilities/*"
       ],
       "@endpoints/*": [
-        "./src/app/(frontend)/endpoints/*",
-        "./src/app/endpoints/*"
+        "./app/(frontend)/endpoints/*",
+        "./app/endpoints/*"
       ],
-      "@/*": ["./src/*"]
+      "@fields/*": ["./fields/*"],
+      "@/*": ["./*"]
     }
   },
   "include": [
@@ -63,7 +58,5 @@
     "next.config.js",
     "next-sitemap.config.cjs"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
