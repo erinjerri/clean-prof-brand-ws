@@ -34,9 +34,6 @@
       "@payload-config": [
         "./src/payload.config.ts"
       ],
-      "react": [
-        "./node_modules/@types/react"
-      ],
       "@components/*": [
         "./src/app/(frontend)/components/*"
       ],
