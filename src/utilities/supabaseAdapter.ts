@@ -1,36 +1,41 @@
-import { S3Client, PutObjectCommand, DeleteObjectCommand, S3ClientConfig } from '@aws-sdk/client-s3';
-import type { Adapter } from '@payloadcms/plugin-cloud-storage/types';
+// src/utilities/supabaseAdapter.ts
+
+import { createClient } from '@supabase/supabase-js'
+import type { Adapter } from '@payloadcms/plugin-cloud-storage/types'
+
+type SupabaseAdapterArgs = {
+  supabaseURL: string
+  serviceRoleKey: string
+  bucket: string
+}
 
 export function supabaseAdapter({
+  supabaseURL,
+  serviceRoleKey,
   bucket,
-  config,
-}: {
-  bucket: string;
-  config: S3ClientConfig;
-}): Adapter {
-  const client = new S3Client(config);
+}: SupabaseAdapterArgs): any {
+  const client = createClient(supabaseURL, serviceRoleKey)
 
   return {
-    async upload({ filename, data }: { filename: string; data: Buffer }) {
-      await client.send(
-        new PutObjectCommand({
-          Bucket: bucket,
-          Key: filename,
-          Body: data,
-        })
-      );
+    async upload({ file }: { file: { filename: string; data: Buffer } }) {
+      const { filename, data } = file
+      const { error } = await client.storage.from(bucket).upload(filename, data, {
+        upsert: true,
+      })
+      if (error) throw error
       return {
-        url: `${config.endpoint?.toString().replace(/\/$/, '')}/${bucket}/${filename}`,
-      };
+        url: `${supabaseURL}/storage/v1/object/public/${bucket}/${filename}`,
+      }
     },
+
     async delete({ filename }: { filename: string }) {
-      await client.send(
-        new DeleteObjectCommand({
-          Bucket: bucket,
-          Key: filename,
-        })
-      );
-      return {};
+      const { error } = await client.storage.from(bucket).remove([filename])
+      if (error) throw error
+      return {}
     },
-  } as Adapter;
+
+    generateURL({ filename }: { filename: string }) {
+      return `${supabaseURL}/storage/v1/object/public/${bucket}/${filename}`
+    },
+  }
 }

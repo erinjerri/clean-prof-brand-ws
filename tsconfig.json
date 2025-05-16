@@ -1,54 +1,49 @@
 {
   "compilerOptions": {
+    /* Strictness */
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-    "baseUrl": "./src",
-    "esModuleInterop": true,
-    "target": "ES2022",
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "allowJs": true,
-    "skipLibCheck": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
+
+    /* Paths & Module Resolution */
+    "baseUrl": "./src",
+    "paths": {
+      "@payload-config": ["./payload.config.ts"],
+      "@components/*": ["./components/*"],
+      "@blocks/*": ["./blocks/*"],
+      "@heros/*": ["./heros/*"],
+      "@utilities/*": ["./utilities/*"],
+      "@endpoints/*": ["./endpoints/*"],
+      "@/*": ["./*"]
+    },
+
+    /* Compatibility */
+    "esModuleInterop": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
     "noEmit": true,
     "incremental": true,
-    "jsx": "preserve",
+
+    /* Build Output */
+    "target": "ES2022",
     "module": "esnext",
     "moduleResolution": "bundler",
-    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "sourceMap": true,
-    "isolatedModules": true,
+
+    /* Plugins */
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "paths": {
-      "@payload-config": ["./payload.config.ts"],
-      "@components/*": [
-        "./app/(frontend)/components/*",
-        "./app/components/*"
-      ],
-      "@blocks/*": [
-        "./app/(frontend)/blocks/*",
-        "./app/blocks/*"
-      ],
-      "@heros/*": [
-        "./app/(frontend)/heros/*",
-        "./app/heros/*"
-      ],
-      "@utilities/*": [
-        "./app/(frontend)/utilities/*",
-        "./app/utilities/*"
-      ],
-      "@endpoints/*": [
-        "./app/(frontend)/endpoints/*",
-        "./app/endpoints/*"
-      ],
-      "@fields/*": ["./fields/*"],
-      "@/*": ["./*"]
-    }
+
+    /* Safety */
+    "skipLibCheck": true
   },
   "include": [
     "**/*.ts",

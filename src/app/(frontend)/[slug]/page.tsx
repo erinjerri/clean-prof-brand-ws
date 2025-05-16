@@ -1,17 +1,18 @@
 import type { Metadata } from 'next'
-
-import configPromise from '@payload-config'
-import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { draftMode } from 'next/headers'
-import React, { cache } from 'react'
-import { homeStatic } from '@/endpoints/seed/home-static'
+import React from 'react'
+import { cache } from 'react'
 
-import { RenderBlocks } from '@/blocks/RenderBlocks'
-import { RenderHero } from '@/heros/RenderHero'
-import { generateMeta } from '@/utilities/generateMeta'
+import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
+import configPromise from '../../../payload.config'
+import { homeStatic } from '../../../endpoints/seed/home-static'
+
+import { RenderBlocks } from '../../../blocks/RenderBlocks'
+import { RenderHero } from '../../../heros/RenderHero'
+import { generateMeta } from '../../../utilities/generateMeta'
 import PageClient from './page.client'
-import { LivePreviewListener } from '@/components/LivePreviewListener'
-import { PayloadRedirects } from '@/components/PayloadRedirects'
+import { LivePreviewListener } from '../../../components/LivePreviewListener'
+import { PayloadRedirects } from '../../../components/PayloadRedirects'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -27,12 +28,8 @@ export async function generateStaticParams() {
   })
 
   const params = pages.docs
-    ?.filter((doc) => {
-      return doc.slug !== 'home'
-    })
-    .map(({ slug }) => {
-      return { slug }
-    })
+    ?.filter((doc) => doc.slug !== 'home')
+    .map(({ slug }) => ({ slug }))
 
   return params
 }
@@ -48,13 +45,9 @@ export default async function Page({ params }: Args) {
   const { slug = 'home' } = params
   const url = '/' + slug
 
-  let page: RequiredDataFromCollectionSlug<'pages'> | null
+  let page: RequiredDataFromCollectionSlug<'pages'> | null = await queryPageBySlug({ slug })
 
-  page = await queryPageBySlug({
-    slug,
-  })
-
-  // Remove this code once your website is seeded
+  // Fallback for home if not found
   if (!page && slug === 'home') {
     page = homeStatic
   }
@@ -68,11 +61,8 @@ export default async function Page({ params }: Args) {
   return (
     <article className="pt-16 pb-24">
       <PageClient />
-      {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
-
       {draft && <LivePreviewListener />}
-
       <RenderHero {...hero} />
       <RenderBlocks blocks={layout} />
     </article>
@@ -81,16 +71,12 @@ export default async function Page({ params }: Args) {
 
 export async function generateMetadata({ params }: Args): Promise<Metadata> {
   const { slug = 'home' } = params
-  const page = await queryPageBySlug({
-    slug,
-  })
-
+  const page = await queryPageBySlug({ slug })
   return generateMeta({ doc: page })
 }
 
 const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
-
   const payload = await getPayload({ config: configPromise })
 
   const result = await payload.find({
