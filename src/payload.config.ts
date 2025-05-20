@@ -50,11 +50,21 @@ export default buildConfig({
     cloudStoragePlugin({
       collections: {
         media: {
-          adapter: supabaseAdapter({
-            supabaseURL: process.env.SUPABASE_URL!,
-            serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
-            bucket: process.env.SUPABASE_BUCKET!,
-          }),
+          adapter: (() => {
+            console.log('Initializing Supabase adapter with:', {
+              url: process.env.SUPABASE_URL,
+              key: process.env.SUPABASE_SERVICE_ROLE_KEY?.slice(0, 5) + '...',
+              bucket: process.env.SUPABASE_BUCKET
+            });
+            const adapter = supabaseAdapter({
+              supabaseURL: process.env.SUPABASE_URL!,
+              serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
+              bucket: process.env.SUPABASE_BUCKET!,
+            });
+            console.log('Adapter created:', typeof adapter);
+            return adapter;
+          })(),
+          disableLocalStorage: true,
         },
       },
     }),

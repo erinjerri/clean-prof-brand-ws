@@ -15,32 +15,32 @@ export function supabaseAdapter({
 }: SupabaseAdapterArgs): any {
   const client = createClient(supabaseURL, serviceRoleKey)
 
-  return function supabaseAdapterInstance({ prefix }: { prefix?: string }) {
-    return {
-      async upload({ file }: { file: { filename: string; data: Buffer } }) {
-        const { filename, data } = file
-        const path = prefix ? `${prefix}/${filename}` : filename
+  return {
+    async upload({ file, prefix }: { file: { filename: string; data: Buffer }, prefix?: string }) {
+      const { filename, data } = file
+      const path = prefix ? `${prefix}/${filename}` : filename
 
-        const { error } = await client.storage.from(bucket).upload(path, data, {
-          upsert: true,
-        })
+      const { error } = await client.storage.from(bucket).upload(path, data, {
+        upsert: true,
+      })
 
-        if (error) throw error
+      if (error) throw error
 
-        return {
-          url: `${supabaseURL}/storage/v1/object/public/${bucket}/${path}`,
-        }
-      },
+      return {
+        url: `${supabaseURL}/storage/v1/object/public/${bucket}/${path}`,
+      }
+    },
 
-      async delete({ filename }: { filename: string }) {
-        const { error } = await client.storage.from(bucket).remove([filename])
-        if (error) throw error
-        return {}
-      },
+    async delete({ filename, prefix }: { filename: string, prefix?: string }) {
+      const path = prefix ? `${prefix}/${filename}` : filename
+      const { error } = await client.storage.from(bucket).remove([path])
+      if (error) throw error
+      return {}
+    },
 
-      generateURL({ filename }: { filename: string }) {
-        return `${supabaseURL}/storage/v1/object/public/${bucket}/${filename}`
-      },
-    }
+    generateURL({ filename, prefix }: { filename: string, prefix?: string }) {
+      const path = prefix ? `${prefix}/${filename}` : filename
+      return `${supabaseURL}/storage/v1/object/public/${bucket}/${path}`
+    },
   }
 }
