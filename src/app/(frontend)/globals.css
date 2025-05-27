@@ -83,9 +83,18 @@
     --warning: 34 51% 25%;
     --error: 10 39% 43%;
   }
+}
 
+@layer base {
+  * {
+    @apply border-border;
+  }
   body {
-    @apply bg-background text-foreground min-h-[100vh] flex flex-col;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -131,11 +140,17 @@
   }
 }
 
+/* Adjust theme transition to prevent content flash */
 html {
+  opacity: 1;
+}
+
+html.theme-transition {
   opacity: 0;
+  transition: opacity 0.2s ease-in-out;
 }
 
 html[data-theme='dark'],
 html[data-theme='light'] {
-  opacity: initial;
+  opacity: 1;
 }
