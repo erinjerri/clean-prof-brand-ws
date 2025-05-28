@@ -9,7 +9,6 @@ import { mergeOpenGraph } from '../../utilities/mergeOpenGraph'
 
 import { InitTheme } from '../../providers/Theme/InitTheme'
 import { Providers } from '../../providers'
-import { AdminBar } from '../../components/AdminBar'
 import { Header } from '../../header/Component'
 import { Footer } from '../../footer/Component'
 
@@ -36,12 +35,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <Providers>
-          <AdminBar
-            adminBarProps={{
-              preview: isEnabled,
-            }}
-          />
-
           <Header />
           <main>{children}</main>
           <Footer />
