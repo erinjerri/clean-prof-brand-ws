@@ -3,15 +3,15 @@ import React from 'react'
 import { draftMode } from 'next/headers'
 import { GeistSans, GeistMono } from 'geist/font'
 
-import { cn } from '@/utilities/ui'
-import { getServerSideURL } from '@/utilities/getURL'
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { cn } from '../../utilities/ui'
+import { getServerSideURL } from '../../utilities/getURL'
+import { mergeOpenGraph } from '../../utilities/mergeOpenGraph'
 
-import { InitTheme } from '@/providers/theme/InitTheme'
-import { Providers } from '@/providers'
-import { AdminBar } from '@/components/AdminBar'
-import { Header } from '@/header/Component'
-import { Footer } from '@/footer/Component'
+import { InitTheme } from '../../providers/Theme/InitTheme'
+import { Providers } from '../../providers'
+import { AdminBar } from '../../components/AdminBar'
+import { Header } from '../../header/Component'
+import { Footer } from '../../footer/Component'
 
 import './globals.css'
 
