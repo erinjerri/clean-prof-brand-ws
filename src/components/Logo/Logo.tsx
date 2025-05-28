@@ -24,3 +24,6 @@ export const Logo = (props: Props) => {
       decoding="async"
       className={clsx('max-w-[9.375rem] w-full h-[34px]', className)}
       src="https://github.com/erinjerri/clean-prof-brand-ws/blob/main/public/logo-3De-blue-transparent.png"
+    />
+  )
+}
