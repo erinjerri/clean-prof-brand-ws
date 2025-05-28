@@ -1,8 +1,9 @@
+import type { Config } from 'tailwindcss'
 import tailwindcssAnimate from 'tailwindcss-animate'
 import typography from '@tailwindcss/typography'
 
 /** @type {import('tailwindcss').Config} */
-const config = {
+const config: Config = {
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
@@ -94,8 +95,8 @@ const config = {
         warning: 'hsl(var(--warning))',
       },
       fontFamily: {
-        mono: ['var(--font-geist-mono)'],
-        sans: ['var(--font-geist-sans)'],
+        sans: ['Jost', 'sans-serif'],
+        mono: ['monospace'],
       },
       keyframes: {
         'accordion-down': {
