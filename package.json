@@ -35,5 +35,11 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.4.3"
   },
-  "type": "module"
+  "type": "module",
+  "pnpm": {
+    "overrides": {
+      "sharp": "^0.33.0",
+      "@img/sharp-libvips-darwin-x64": "^1.1.0"
+    }
+  }
 }
