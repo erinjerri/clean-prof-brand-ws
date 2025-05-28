@@ -14,7 +14,7 @@ import { Users } from './collections/Users'
 import { Footer } from './footer/config'
 import { Header } from './header/config'
 import { plugins } from './plugins'
-import { defaultLexical } from '@/fields/defaultLexical'
+import { defaultLexical } from './fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 
 const filename = fileURLToPath(import.meta.url)

@@ -27,9 +27,7 @@ export async function generateStaticParams() {
     },
   })
 
-  const params = pages.docs
-    ?.filter((doc) => doc.slug !== 'home')
-    .map(({ slug }) => ({ slug }))
+  const params = pages.docs?.filter((doc) => doc.slug !== 'home').map(({ slug }) => ({ slug }))
 
   return params
 }
@@ -40,14 +38,14 @@ type Args = {
   }
 }
 
-export default async function Page({ params }: Args) {
+// ✅ Fix: Avoid destructuring `params` directly from function arguments
+export default async function Page(args: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { slug = 'home' } = params
+  const slug = args?.params?.slug ?? 'home'
   const url = '/' + slug
 
   let page: RequiredDataFromCollectionSlug<'pages'> | null = await queryPageBySlug({ slug })
 
-  // Fallback for home if not found
   if (!page && slug === 'home') {
     page = homeStatic
   }
@@ -69,8 +67,9 @@ export default async function Page({ params }: Args) {
   )
 }
 
-export async function generateMetadata({ params }: Args): Promise<Metadata> {
-  const { slug = 'home' } = params
+// ✅ Fix: Same here, no destructuring from args directly
+export async function generateMetadata(args: Args): Promise<Metadata> {
+  const slug = args?.params?.slug ?? 'home'
   const page = await queryPageBySlug({ slug })
   return generateMeta({ doc: page })
 }
