@@ -1,18 +1,13 @@
 {
   "compilerOptions": {
-    /* Strictness */
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-
     "baseUrl": ".",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "target": "ES2022",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ES2022"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "allowJs": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
@@ -30,9 +25,9 @@
         "name": "next"
       }
     ],
+    "types": ["node"],
     "paths": {
       "@payload-config": ["./src/payload.config.ts"],
-      "react": ["./node_modules/@types/react"],
       "@/*": ["./src/*"]
     }
   },
@@ -42,5 +37,8 @@
     "**/*.ts",
     "**/*.tsx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "esm": true
+  }
 }

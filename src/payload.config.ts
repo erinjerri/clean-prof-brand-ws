@@ -1,72 +1,50 @@
-// storage-adapter-import-placeholder
-import { mongooseAdapter } from '@payloadcms/db-mongodb'
-
-import sharp from 'sharp' // sharp-import
 import path from 'path'
-import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
-
-import { Categories } from './collections/Categories'
-import { Media } from './collections/Media'
+import { buildConfig } from 'payload'
+import { seoPlugin } from '@payloadcms/plugin-seo'
+import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
+import { Media } from './collections/Media'
 import { Users } from './collections/Users'
+import { Categories } from './collections/Categories'
 import { Footer } from './footer/config'
-import { Header } from './header/config'
-import { plugins } from './plugins'
-import { defaultLexical } from './fields/defaultLexical'
-import { getServerSideURL } from './utilities/getURL'
+import { Redirects } from './collections/Redirects'
+import type { GlobalConfig } from 'payload'
+import sharp from 'sharp' // ✅ Required for image resizing
 
-const filename = fileURLToPath(import.meta.url)
-const dirname = path.dirname(filename)
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const Header: GlobalConfig = {
+  slug: 'header',
+  fields: [
+    // Define your fields here
+  ],
+}
 
 export default buildConfig({
   admin: {
-    // components: {
-    //   beforeLogin: ['@/components/BeforeLogin'],
-    //   beforeDashboard: ['@/components/BeforeDashboard'],
-    // },
-    importMap: {
-      baseDir: path.resolve(dirname),
-    },
     user: Users.slug,
-    livePreview: {
-      breakpoints: [
-        { label: 'Mobile', name: 'mobile', width: 375, height: 667 },
-        { label: 'Tablet', name: 'tablet', width: 768, height: 1024 },
-        { label: 'Desktop', name: 'desktop', width: 1440, height: 900 },
-      ],
-    },
   },
-  editor: defaultLexical,
+  collections: [Pages, Posts, Media, Users, Categories, Redirects],
+  globals: [Header, Footer],
   db: mongooseAdapter({
     url: process.env.DATABASE_URI!,
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
-  cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
   plugins: [
-    ...plugins,
-    // storage-adapter-placeholder
+    seoPlugin({
+      collections: ['pages', 'posts'],
+      generateTitle: ({ doc }) => `${doc.title} | Your Site Name`,
+      generateDescription: ({ doc }) => doc.content || '',
+    }),
   ],
-  secret: process.env.PAYLOAD_SECRET!,
-  sharp,
+  sharp, // ✅ Add this line here to enable image resizing
+  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   typescript: {
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
+    outputFile: path.resolve(__dirname, 'payload-types.ts'),
   },
-  jobs: {
-    access: {
-      run: ({ req }: { req: PayloadRequest }): boolean => {
-        // Allow logged in users to execute this endpoint (default)
-        if (req.user) return true
-
-        // If there is no logged in user, then check
-        // for the Vercel Cron secret to be present as an
-        // Authorization header:
-        const authHeader = req.headers.get('authorization')
-        return authHeader === `Bearer ${process.env.CRON_SECRET}`
-      },
-    },
-    tasks: [],
-  },
+  cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'],
+  csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'],
+  secret: process.env.PAYLOAD_SECRET!,
 })

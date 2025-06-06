@@ -1,37 +1,47 @@
-import { withPayload } from '@payloadcms/next/withPayload'
-
-import redirects from './redirects.js'
-import path from 'path'
+/** @type {import('next').NextConfig} */
 import { fileURLToPath } from 'url'
+import path from 'path'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
-
-/** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: new URL(NEXT_PUBLIC_SERVER_URL).protocol.replace(':', ''),
-        hostname: new URL(NEXT_PUBLIC_SERVER_URL).hostname,
-      },
-    ],
+  experimental: {
+    serverActions: {},
   },
-  reactStrictMode: true,
-  redirects,
-  webpack: (config) => {
-    config.resolve.alias = {
-      ...(config.resolve.alias || {}),
-      '@payload-config': path.resolve(__dirname, './src/payload.config.ts'),
+  webpack: (config, { isServer }) => {
+    // ESM packages that need to be treated as commonjs on server
+    config.externals = config.externals || []
+    if (isServer) {
+      config.externals.push({
+        '@payloadcms/db-mongodb': 'commonjs @payloadcms/db-mongodb',
+        '@payloadcms/plugin-seo': 'commonjs @payloadcms/plugin-seo',
+        payload: 'commonjs payload',
+      })
     }
+
+    // Support .mjs files from ESM modules
+    config.module.rules.push({
+      test: /\.mjs$/,
+      include: /node_modules/,
+      type: 'javascript/auto',
+    })
+
+    // Extension resolution
+    config.resolve.extensionAlias = {
+      '.js': ['.ts', '.tsx', '.js', '.jsx'],
+      '.mjs': ['.mts', '.mjs'],
+    }
+
+    // Custom alias for payload.config.ts
+    config.resolve.alias['payload-config'] = path.resolve(__dirname, './src/payload.config.ts')
+
     return config
+  },
+  transpilePackages: ['@payloadcms/plugin-seo'],
+  images: {
+    domains: ['localhost'],
   },
 }
 
-export default withPayload(nextConfig, {
-  devBundleServerPackages: false,
-})
+export default nextConfig

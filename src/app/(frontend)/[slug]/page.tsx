@@ -3,7 +3,7 @@ import { draftMode } from 'next/headers'
 import React from 'react'
 import { cache } from 'react'
 
-import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
+import { getPayload } from 'payload'
 import configPromise from '../../../payload.config'
 import { homeStatic } from '../../../endpoints/seed/home-static'
 
@@ -13,6 +13,7 @@ import { generateMeta } from '../../../utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '../../../components/LivePreviewListener'
 import { PayloadRedirects } from '../../../components/PayloadRedirects'
+import type { Page as PageType } from '../../../payload-types'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -27,7 +28,8 @@ export async function generateStaticParams() {
     },
   })
 
-  const params = pages.docs?.filter((doc) => doc.slug !== 'home').map(({ slug }) => ({ slug }))
+  const params =
+    pages.docs?.filter((doc) => doc.slug !== 'home').map(({ slug }) => ({ slug })) || []
 
   return params
 }
@@ -38,16 +40,15 @@ type Args = {
   }
 }
 
-// ✅ Fix: Avoid destructuring `params` directly from function arguments
-export default async function Page(args: Args) {
+export default async function Page({ params }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const slug = args?.params?.slug ?? 'home'
+  const slug = params?.slug ?? 'home'
   const url = '/' + slug
 
-  let page: RequiredDataFromCollectionSlug<'pages'> | null = await queryPageBySlug({ slug })
+  let page: PageType | null = await queryPageBySlug({ slug })
 
   if (!page && slug === 'home') {
-    page = homeStatic
+    page = homeStatic as PageType
   }
 
   if (!page) {
@@ -61,20 +62,19 @@ export default async function Page(args: Args) {
       <PageClient />
       <PayloadRedirects disableNotFound url={url} />
       {draft && <LivePreviewListener />}
-      <RenderHero {...hero} />
-      <RenderBlocks blocks={layout} />
+      {hero && <RenderHero {...hero} />}
+      {layout && <RenderBlocks blocks={layout} />}
     </article>
   )
 }
 
-// ✅ Fix: Same here, no destructuring from args directly
-export async function generateMetadata(args: Args): Promise<Metadata> {
-  const slug = args?.params?.slug ?? 'home'
+export async function generateMetadata({ params }: Args): Promise<Metadata> {
+  const slug = params?.slug ?? 'home'
   const page = await queryPageBySlug({ slug })
   return generateMeta({ doc: page })
 }
 
-const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
+const queryPageBySlug = cache(async ({ slug }: { slug: string }): Promise<PageType | null> => {
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
 
