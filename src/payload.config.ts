@@ -26,6 +26,9 @@ const Header: GlobalConfig = {
 export default buildConfig({
   admin: {
     user: Users.slug,
+    components: {
+      // Add any custom admin components here
+    },
   },
   collections: [Pages, Posts, Media, Users, Categories, Redirects],
   globals: [Header, Footer],
@@ -35,10 +38,15 @@ export default buildConfig({
   plugins: [
     seoPlugin({
       collections: ['pages', 'posts'],
-      generateTitle: ({ doc }) => `${doc.title} | Your Site Name`,
-      generateDescription: ({ doc }) => doc.content || '',
+      generateTitle: ({ doc }: { doc: any }) => `${doc.title} | Your Site Name`,
+      generateDescription: ({ doc }: { doc: any }) => doc.content || '',
     }),
   ],
+  upload: {
+    limits: {
+      fileSize: 5000000, // 5MB
+    },
+  },
   sharp, // ✅ Add this line here to enable image resizing
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
   typescript: {

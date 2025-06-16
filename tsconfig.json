@@ -28,14 +28,16 @@
     "types": ["node"],
     "paths": {
       "@payload-config": ["./src/payload.config.ts"],
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/payload-types": ["./src/types/payload-types.d.ts"]
     }
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "src/types/**/*.d.ts"
   ],
   "exclude": ["node_modules"],
   "ts-node": {

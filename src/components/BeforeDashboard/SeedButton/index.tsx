@@ -1,7 +1,7 @@
 'use client'
 
 import React, { Fragment, useCallback, useState } from 'react'
-import { toast } from '@payloadcms/ui'
+import { useToast } from '@radix-ui/react-toast'
 
 import './index.scss'
 
@@ -18,58 +18,61 @@ export const SeedButton: React.FC = () => {
   const [loading, setLoading] = useState(false)
   const [seeded, setSeeded] = useState(false)
   const [error, setError] = useState<null | string>(null)
+  const { toast } = useToast()
 
   const handleClick = useCallback(
     async (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault()
 
       if (seeded) {
-        toast.info('Database already seeded.')
+        toast({
+          title: 'Info',
+          description: 'Database already seeded.',
+        })
         return
       }
       if (loading) {
-        toast.info('Seeding already in progress.')
+        toast({
+          title: 'Info',
+          description: 'Seeding already in progress.',
+        })
         return
       }
       if (error) {
-        toast.error(`An error occurred, please refresh and try again.`)
+        toast({
+          title: 'Error',
+          description: 'An error occurred, please refresh and try again.',
+          variant: 'destructive',
+        })
         return
       }
 
       setLoading(true)
 
       try {
-        toast.promise(
-          new Promise((resolve, reject) => {
-            try {
-              fetch('/next/seed', { method: 'POST', credentials: 'include' })
-                .then((res) => {
-                  if (res.ok) {
-                    resolve(true)
-                    setSeeded(true)
-                  } else {
-                    reject('An error occurred while seeding.')
-                  }
-                })
-                .catch((error) => {
-                  reject(error)
-                })
-            } catch (error) {
-              reject(error)
-            }
-          }),
-          {
-            loading: 'Seeding with data....',
-            success: <SuccessMessage />,
-            error: 'An error occurred while seeding.',
-          },
-        )
+        const result = await fetch('/next/seed', { method: 'POST', credentials: 'include' })
+        if (result.ok) {
+          setSeeded(true)
+          toast({
+            title: 'Success',
+            description: <SuccessMessage />,
+          })
+        } else {
+          throw new Error('An error occurred while seeding.')
+        }
       } catch (err) {
         const error = err instanceof Error ? err.message : String(err)
         setError(error)
+        toast({
+          title: 'Error',
+          description: 'An error occurred while seeding.',
+          variant: 'destructive',
+        })
+      } finally {
+        setLoading(false)
       }
     },
-    [loading, seeded, error],
+    [loading, seeded, error, toast],
   )
 
   let message = ''

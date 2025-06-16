@@ -16,6 +16,8 @@ const nextConfig = {
       config.externals.push({
         '@payloadcms/db-mongodb': 'commonjs @payloadcms/db-mongodb',
         '@payloadcms/plugin-seo': 'commonjs @payloadcms/plugin-seo',
+        '@payloadcms/plugin-search': 'commonjs @payloadcms/plugin-search',
+        '@payloadcms/ui': 'commonjs @payloadcms/ui',
         payload: 'commonjs payload',
       })
     }
@@ -35,12 +37,38 @@ const nextConfig = {
 
     // Custom alias for payload.config.ts
     config.resolve.alias['payload-config'] = path.resolve(__dirname, './src/payload.config.ts')
+    config.resolve.alias['@'] = path.resolve(__dirname, './src')
+
+    // Add fallback for getBestFitFromSizes
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      'payload/shared': path.resolve(__dirname, './src/utilities/shared.js'),
+    }
 
     return config
   },
-  transpilePackages: ['@payloadcms/plugin-seo'],
+  transpilePackages: ['@payloadcms/plugin-seo', '@payloadcms/plugin-search', '@payloadcms/ui'],
   images: {
-    domains: ['localhost'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/api/media/file/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+    // Increase image optimization timeout
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    formats: ['image/webp'],
+    minimumCacheTTL: 60,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 }
 

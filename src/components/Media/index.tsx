@@ -1,25 +1,21 @@
-import React, { Fragment } from 'react'
+'use client'
 
-import type { Props } from './types'
-
+import React from 'react'
 import { ImageMedia } from './ImageMedia'
 import { VideoMedia } from './VideoMedia'
+import type { Props } from './types'
 
 export const Media: React.FC<Props> = (props) => {
-  const { className, htmlElement = 'div', resource } = props
+  const { resource, ...rest } = props
 
-  const isVideo = typeof resource === 'object' && resource?.mimeType?.includes('video')
-  const Tag = htmlElement || Fragment
+  // Check if resource is a valid object with mimeType
+  if (resource && typeof resource === 'object' && 'mimeType' in resource) {
+    const isVideo = resource.mimeType?.includes('video')
 
-  return (
-    <Tag
-      {...(htmlElement !== null
-        ? {
-            className,
-          }
-        : {})}
-    >
-      {isVideo ? <VideoMedia {...props} /> : <ImageMedia {...props} />}
-    </Tag>
-  )
+    if (isVideo) {
+      return <VideoMedia resource={resource} {...rest} />
+    }
+  }
+
+  return <ImageMedia resource={resource} {...rest} />
 }

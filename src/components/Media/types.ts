@@ -3,20 +3,37 @@ import type { ElementType, Ref } from 'react'
 
 import type { Media as MediaType } from '@/payload-types'
 
-export interface Props {
+export interface MediaResource {
+  url: string
+  alt?: string
+  width?: number
+  height?: number
+  mimeType?: string
+  updatedAt?: string
+  sizes?: {
+    og?: {
+      url: string
+    }
+  }
+}
+
+export type Props = {
   alt?: string
   className?: string
-  fill?: boolean // for NextImage only
-  htmlElement?: ElementType | null
-  pictureClassName?: string
+  fill?: boolean
+  htmlElement?: string | null
   imgClassName?: string
-  onClick?: () => void
-  onLoad?: () => void
-  loading?: 'lazy' | 'eager' // for NextImage only
-  priority?: boolean // for NextImage only
-  ref?: Ref<HTMLImageElement | HTMLVideoElement | null>
-  resource?: MediaType | string | number | null // for Payload media
-  size?: string // for NextImage only
-  src?: StaticImageData // for static media
-  videoClassName?: string
+  loading?: 'lazy' | 'eager'
+  pictureClassName?: string
+  priority?: boolean
+  resource?: {
+    alt?: string
+    height?: number
+    mimeType?: string
+    url?: string
+    width?: number
+    updatedAt?: string
+  } | null
+  size?: string
+  src?: string | StaticImageData
 }

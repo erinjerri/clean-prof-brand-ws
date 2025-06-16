@@ -21,15 +21,13 @@ export const Card: React.FC<{
   const { card, link } = useClickableCard({})
   const { className, doc, relationTo, showCategories, title: titleFromProps } = props
 
-  console.log('Card doc:', doc);
-
   const { slug, categories, meta, title, heroImage } = doc || {}
   const { description, image: metaImage } = meta || {}
   const imageToUse = metaImage || heroImage
 
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
   const titleToUse = titleFromProps || title
-  const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
+  const sanitizedDescription = description?.replace(/\s/g, ' ')
   const href = `/${relationTo}/${slug}`
 
   return (
@@ -40,35 +38,30 @@ export const Card: React.FC<{
       )}
       ref={card.ref}
     >
-      <div className="relative w-full ">
-        {!imageToUse && <div className="">No image</div>}
-        {imageToUse && typeof imageToUse !== 'string' && <Media resource={imageToUse} size="33vw" />}
+      <div className="relative w-full aspect-[16/9]">
+        {imageToUse ? (
+          <Media resource={imageToUse} size="33vw" imgClassName="object-cover w-full h-full" />
+        ) : (
+          <div className="w-full h-full bg-gray-100 flex items-center justify-center">No image</div>
+        )}
       </div>
       <div className="p-4">
         {showCategories && hasCategories && (
           <div className="uppercase text-sm mb-4">
-            {showCategories && hasCategories && (
-              <div>
-                {categories?.map((category, index) => {
-                  if (typeof category === 'object') {
-                    const { title: titleFromCategory } = category
-
-                    const categoryTitle = titleFromCategory || 'Untitled category'
-
-                    const isLast = index === categories.length - 1
-
-                    return (
-                      <Fragment key={index}>
-                        {categoryTitle}
-                        {!isLast && <Fragment>, &nbsp;</Fragment>}
-                      </Fragment>
-                    )
-                  }
-
-                  return null
-                })}
-              </div>
-            )}
+            {categories.map((category, index) => {
+              if (typeof category === 'object') {
+                const { title: titleFromCategory } = category
+                const categoryTitle = titleFromCategory || 'Untitled category'
+                const isLast = index === categories.length - 1
+                return (
+                  <Fragment key={index}>
+                    {categoryTitle}
+                    {!isLast && <Fragment>, &nbsp;</Fragment>}
+                  </Fragment>
+                )
+              }
+              return null
+            })}
           </div>
         )}
         {titleToUse && (
