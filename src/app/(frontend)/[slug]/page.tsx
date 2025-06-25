@@ -4,17 +4,17 @@ import React from 'react'
 import { cache } from 'react'
 
 import { getPayload } from 'payload'
-import configPromise from '../../payload.config'
-import { homeStatic } from '../../endpoints/seed/home-static'
+import configPromise from '../../../payload.config'
+import { homeStatic } from '../../../endpoints/seed/home-static'
 
-import { RenderBlocks } from '../../blocks/RenderBlocks'
-import { RenderHero } from '../../heros/RenderHero'
-import { generateMeta } from '../../utilities/generateMeta'
-import { serializePayloadData } from '../../utilities/serializePayload'
+import { RenderBlocks } from '../../../blocks/RenderBlocks'
+import { RenderHero } from '../../../heros/RenderHero'
+import { generateMeta } from '../../../utilities/generateMeta'
+import { serializePayloadData } from '../../../utilities/serializePayload'
 import PageClient from './page.client'
-import { LivePreviewListener } from '../../components/LivePreviewListener'
-import { PayloadRedirects } from '../../components/PayloadRedirects'
-import type { Page as PageType } from '../../payload-types'
+import { LivePreviewListener } from '../../../components/LivePreviewListener'
+import { PayloadRedirects } from '../../../components/PayloadRedirects'
+import type { Page as PageType } from '../../../payload-types'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
