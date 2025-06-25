@@ -13,7 +13,7 @@ type SlugComponentProps = {
 
 export const SlugComponent: React.FC<SlugComponentProps> = ({
   field,
-  fieldToUse,
+  fieldToUse: _fieldToUse,
   checkboxFieldPath: checkboxFieldPathFromProps,
   path,
   readOnly: readOnlyFromProps,
@@ -21,9 +21,9 @@ export const SlugComponent: React.FC<SlugComponentProps> = ({
   const { label } = field
   const [value, setValue] = useState('')
   const [checkboxValue, setCheckboxValue] = useState(false)
-  const [targetFieldValue, setTargetFieldValue] = useState('')
+  const [targetFieldValue, _setTargetFieldValue] = useState('')
 
-  const checkboxFieldPath = path?.includes('.')
+  const _checkboxFieldPath = path?.includes('.')
     ? `${path}.${checkboxFieldPathFromProps}`
     : checkboxFieldPathFromProps
 

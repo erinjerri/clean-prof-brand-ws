@@ -9,8 +9,8 @@ import { mergeOpenGraph } from '../../utilities/mergeOpenGraph'
 
 import { InitTheme } from '../../providers/Theme/InitTheme'
 import { Providers } from '../../providers'
-import { Header } from '../../header/Component'
-import { Footer } from '../../footer/Component'
+import { Header as HeaderComponent } from '../../header/Component'
+import { Footer as FooterComponent } from '../../footer/Component'
 
 import './globals.css'
 
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled } = await draftMode()
+  await draftMode()
 
   return (
     <html lang="en" className={cn(GeistSans.variable, GeistMono.variable)} suppressHydrationWarning>
@@ -35,9 +35,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <Providers>
-          <Header />
+          <HeaderComponent />
           <main>{children}</main>
-          <Footer />
+          <FooterComponent />
         </Providers>
       </body>
     </html>

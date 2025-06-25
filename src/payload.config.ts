@@ -38,8 +38,9 @@ export default buildConfig({
   plugins: [
     seoPlugin({
       collections: ['pages', 'posts'],
-      generateTitle: ({ doc }: { doc: any }) => `${doc.title} | Your Site Name`,
-      generateDescription: ({ doc }: { doc: any }) => doc.content || '',
+      generateTitle: ({ doc }: { doc: { title?: string } }) =>
+        `${doc.title || 'Page'} | Your Site Name`,
+      generateDescription: ({ doc }: { doc: { content?: string } }) => doc.content || '',
     }),
   ],
   upload: {

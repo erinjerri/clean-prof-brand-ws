@@ -41,7 +41,7 @@ type Args = {
 }
 
 export default async function Page({ params }: Args) {
-  const { isEnabled: draft } = await draftMode()
+  const { isEnabled } = await draftMode()
   const slug = params?.slug ?? 'home'
   const url = '/' + slug
 
@@ -61,7 +61,7 @@ export default async function Page({ params }: Args) {
     <article className="pt-16 pb-24">
       <PageClient />
       <PayloadRedirects disableNotFound url={url} />
-      {draft && <LivePreviewListener />}
+      {isEnabled && <LivePreviewListener />}
       {hero && <RenderHero {...hero} />}
       {layout && <RenderBlocks blocks={layout} />}
     </article>
@@ -75,15 +75,15 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
 }
 
 const queryPageBySlug = cache(async ({ slug }: { slug: string }): Promise<PageType | null> => {
-  const { isEnabled: draft } = await draftMode()
+  const { isEnabled } = await draftMode()
   const payload = await getPayload({ config: configPromise })
 
   const result = await payload.find({
     collection: 'pages',
-    draft,
+    draft: isEnabled,
     limit: 1,
     pagination: false,
-    overrideAccess: draft,
+    overrideAccess: isEnabled,
     where: {
       slug: {
         equals: slug,
