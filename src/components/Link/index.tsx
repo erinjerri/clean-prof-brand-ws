@@ -11,13 +11,16 @@ type CMSLinkType = {
   className?: string
   label?: string | null
   newTab?: boolean | null
-  reference?: {
-    relationTo: 'pages' | 'posts'
-    value: Page | Post | string | number
-  } | null
+  reference?:
+    | {
+        relationTo: 'pages' | 'posts'
+        value: Page | Post | string | number | null | undefined
+      }
+    | null
+    | undefined
   size?: ButtonProps['size'] | null
   type?: 'custom' | 'reference' | null
-  url?: string | null
+  url?: string | null | undefined
 }
 
 export const CMSLink: React.FC<CMSLinkType> = (props) => {
@@ -33,21 +36,22 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     url,
   } = props
 
-  let href: string | undefined = url
-  if (type === 'reference' && reference) {
+  // Defensive: always ensure href is string or undefined
+  let href: string | undefined = typeof url === 'string' ? url : undefined
+  if (type === 'reference' && reference && typeof reference === 'object') {
     if (
       reference.value &&
       typeof reference.value === 'object' &&
       'slug' in reference.value &&
-      reference.value.slug
+      typeof reference.value.slug === 'string'
     ) {
       href = `${reference.relationTo !== 'pages' ? `/${reference.relationTo}` : ''}/${reference.value.slug}`
     } else if (typeof reference.value === 'string' || typeof reference.value === 'number') {
-      // fallback if needed
       href = `/${reference.relationTo}/${reference.value}`
     }
   }
 
+  // If href is still not a string, don't render the link
   if (!href) return null
 
   const size = appearance === 'link' ? 'clear' : sizeFromProps

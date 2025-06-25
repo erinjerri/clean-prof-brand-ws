@@ -12,6 +12,7 @@
     "postinstall": "payload generate:types"
   },
   "dependencies": {
+    "@lexical/react": "^0.32.1",
     "@payloadcms/db-mongodb": "3.39.1",
     "@payloadcms/live-preview-react": "3.39.1",
     "@payloadcms/next": "3.39.1",
@@ -36,6 +37,7 @@
     "classnames": "^2.3.2",
     "clsx": "^2.1.1",
     "geist": "^1.4.2",
+    "lexical": "^0.32.1",
     "lucide-react": "^0.511.0",
     "mongoose": "^7.6.0",
     "next": "15.3.4",
