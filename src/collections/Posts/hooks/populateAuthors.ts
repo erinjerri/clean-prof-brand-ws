@@ -6,7 +6,7 @@ import type { FieldHook } from 'payload/types'
 // So we use an alternative `populatedAuthors` field to populate the user data, hidden from the admin UI
 export const populateAuthors: FieldHook = async ({ data }) => {
   if (data?.authors && Array.isArray(data.authors)) {
-    return data.authors.map((author: any) => {
+    return data.authors.map((author: string | { id: string }) => {
       if (typeof author === 'string') {
         return author
       }

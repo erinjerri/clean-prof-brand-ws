@@ -9,8 +9,8 @@ import { mergeOpenGraph } from '../../utilities/mergeOpenGraph'
 
 import { InitTheme } from '../../providers/Theme/InitTheme'
 import { Providers } from '../../providers'
-import { Header as HeaderComponent } from '../../header/Component'
-import { Footer as FooterComponent } from '../../footer/Component'
+import { HeaderComponent } from '../../header/Component'
+import { FooterComponent } from '../../footer/Component'
 
 import './globals.css'
 
