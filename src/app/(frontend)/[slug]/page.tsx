@@ -10,6 +10,7 @@ import { homeStatic } from '../../endpoints/seed/home-static'
 import { RenderBlocks } from '../../blocks/RenderBlocks'
 import { RenderHero } from '../../heros/RenderHero'
 import { generateMeta } from '../../utilities/generateMeta'
+import { serializePayloadData } from '../../utilities/serializePayload'
 import PageClient from './page.client'
 import { LivePreviewListener } from '../../components/LivePreviewListener'
 import { PayloadRedirects } from '../../components/PayloadRedirects'
@@ -55,7 +56,9 @@ export default async function Page({ params }: Args) {
     return <PayloadRedirects url={url} />
   }
 
-  const { hero, layout } = page
+  // Serialize the data before passing to components
+  const serializedPage = serializePayloadData(page)
+  const { hero, layout } = serializedPage
 
   return (
     <article className="pt-16 pb-24">

@@ -12,6 +12,7 @@ import { RenderHero } from '../../heros/RenderHero'
 import { generateMeta } from '../../utilities/generateMeta'
 import { LivePreviewListener } from '../../components/LivePreviewListener'
 import { PayloadRedirects } from '../../components/PayloadRedirects'
+import { serializePayloadData } from '../../utilities/serializePayload'
 import type { Page as PageType } from '../../payload-types'
 
 type HomePageProps = {
@@ -35,7 +36,9 @@ export default async function HomePage(props: HomePageProps) {
     return <PayloadRedirects url={url} />
   }
 
-  const { hero, layout } = page
+  // Serialize the data before passing to components
+  const serializedPage = serializePayloadData(page)
+  const { hero, layout } = serializedPage
 
   return (
     <article className="pt-16 pb-24">

@@ -1,17 +1,20 @@
-import { getCachedGlobal } from '@/utilities/getGlobals'
+import { getCachedGlobal } from '../utilities/getGlobals'
+import { serializePayloadData } from '../utilities/serializePayload'
 import Link from 'next/link'
 import React from 'react'
 
-import type { Footer } from '@/payload-types'
+import type { Footer } from '../payload-types'
 
-import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
-import { CMSLink } from '@/components/Link'
-import { Logo } from '@/components/Logo/Logo'
+import { ThemeSelector } from '../providers/Theme/ThemeSelector'
+import { CMSLink } from '../components/Link'
+import { Logo } from '../components/Logo/Logo'
 
 export async function FooterComponent() {
   const footerData: Footer = await getCachedGlobal('footer', 1)()
 
-  const navItems = footerData?.navItems || []
+  // Serialize the data before using it
+  const serializedFooterData = serializePayloadData(footerData)
+  const navItems = serializedFooterData?.navItems || []
 
   return (
     <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
