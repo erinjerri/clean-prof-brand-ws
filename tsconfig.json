@@ -1,36 +1,29 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
-    "baseUrl": ".",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "target": "ES2022",
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "incremental": true,
-    "jsx": "preserve",
     "module": "esnext",
     "moduleResolution": "bundler",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "sourceMap": true,
-    "isolatedModules": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "types": ["node"],
+    "incremental": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
       "@payload-config": ["./src/payload.config.ts"],
       "@/payload-types": ["./src/types/payload-types.d.ts"]
-    }
+    },
+    "types": ["node"]
   },
   "include": [
     "next-env.d.ts",

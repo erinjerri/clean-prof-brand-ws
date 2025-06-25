@@ -32,6 +32,24 @@ export const MediaBlock: React.FC<Props> = (props) => {
   let caption
   if (media && typeof media === 'object') caption = media.caption
 
+  // Extract only the serializable data from the Payload Media object
+  const serializedMedia =
+    media && typeof media === 'object'
+      ? {
+          id: media.id,
+          alt: media.alt,
+          url: media.url,
+          filename: media.filename,
+          mimeType: media.mimeType,
+          width: media.width,
+          height: media.height,
+          caption: media.caption,
+          updatedAt: media.updatedAt,
+          createdAt: media.createdAt,
+          // Add any other fields you need, but avoid complex objects like 'buffer'
+        }
+      : media
+
   return (
     <div
       className={cn(
@@ -45,7 +63,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
       {(media || staticImage) && (
         <Media
           imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
-          resource={media}
+          resource={serializedMedia}
           src={staticImage}
         />
       )}

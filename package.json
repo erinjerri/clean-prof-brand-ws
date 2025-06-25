@@ -42,8 +42,8 @@
     "next-sitemap": "^4.2.3",
     "payload": "3.39.1",
     "prism-react-renderer": "^2.4.1",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
     "react-hook-form": "^7.56.4",
     "sharp": "^0.33.0",
     "tailwind-merge": "^3.3.0"
