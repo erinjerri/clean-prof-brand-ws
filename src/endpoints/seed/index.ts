@@ -124,7 +124,10 @@ export const seed = async ({
       data: imageHero1,
       file: hero1Buffer,
     }),
+  ])
 
+  // Create categories separately
+  await Promise.all([
     payload.create({
       collection: 'categories',
       data: {
@@ -137,7 +140,6 @@ export const seed = async ({
         ],
       },
     }),
-
     payload.create({
       collection: 'categories',
       data: {
@@ -150,7 +152,6 @@ export const seed = async ({
         ],
       },
     }),
-
     payload.create({
       collection: 'categories',
       data: {
@@ -175,7 +176,6 @@ export const seed = async ({
         ],
       },
     }),
-
     payload.create({
       collection: 'categories',
       data: {
@@ -188,7 +188,6 @@ export const seed = async ({
         ],
       },
     }),
-
     payload.create({
       collection: 'categories',
       data: {
