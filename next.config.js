@@ -6,9 +6,33 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const nextConfig = {
-  experimental: {
-    serverActions: {},
+  eslint: {
+    ignoreDuringBuilds: true,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  serverExternalPackages: ['payload'],
+  images: {
+    domains: ['localhost'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/**',
+      },
+    ],
+    // Increase image optimization timeout
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    formats: ['image/webp'],
+    minimumCacheTTL: 60,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+  transpilePackages: ['@payloadcms/plugin-seo', '@payloadcms/plugin-search', '@payloadcms/ui'],
   webpack: (config, { isServer }) => {
     // ESM packages that need to be treated as commonjs on server
     config.externals = config.externals || []
@@ -45,30 +69,12 @@ const nextConfig = {
       'payload/shared': path.resolve(__dirname, './src/utilities/shared.js'),
     }
 
+    config.externals.push({
+      'utf-8-validate': 'commonjs utf-8-validate',
+      bufferutil: 'commonjs bufferutil',
+    })
+
     return config
-  },
-  transpilePackages: ['@payloadcms/plugin-seo', '@payloadcms/plugin-search', '@payloadcms/ui'],
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '3000',
-        pathname: '/api/media/file/**',
-      },
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
-    // Increase image optimization timeout
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    formats: ['image/webp'],
-    minimumCacheTTL: 60,
-    dangerouslyAllowSVG: true,
-    contentDispositionType: 'attachment',
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
 }
 

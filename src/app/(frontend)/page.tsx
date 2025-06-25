@@ -6,10 +6,9 @@ type HomePageProps = {
 }
 
 export default async function HomePageWrapper(props: HomePageProps) {
-  console.log('Rendering Homepage') // This will show in the server logs
-  return (
-    <PageTemplate params={Promise.resolve({ slug: 'home' })} searchParams={Promise.resolve({})} />
-  )
+  const params = await props.params
+  const searchParams = await props.searchParams
+  return <PageTemplate params={{ slug: 'home' }} searchParams={searchParams} />
 }
 
 // We also re-export metadata if needed

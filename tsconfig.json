@@ -27,8 +27,8 @@
     ],
     "types": ["node"],
     "paths": {
+      "@/*": ["src/*"],
       "@payload-config": ["./src/payload.config.ts"],
-      "@/*": ["./src/*"],
       "@/payload-types": ["./src/types/payload-types.d.ts"]
     }
   },
