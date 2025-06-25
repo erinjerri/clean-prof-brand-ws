@@ -1,8 +1,8 @@
 import type React from 'react'
-import type { Page, Post } from '@/payload-types'
+import type { Page, Post } from '../../payload-types'
 
-import { getCachedDocument } from '@/utilities/getDocument'
-import { getCachedRedirects } from '@/utilities/getRedirects'
+import { getCachedDocument } from '../../utilities/getDocument'
+import { getCachedRedirects } from '../../utilities/getRedirects'
 import { notFound, redirect } from 'next/navigation'
 
 interface Props {
@@ -31,12 +31,16 @@ export const PayloadRedirects: React.FC<Props> = async ({ disableNotFound, url }
       redirectUrl = `${redirectItem.to?.reference?.relationTo !== 'pages' ? `/${redirectItem.to?.reference?.relationTo}` : ''}/${
         document?.slug
       }`
-    } else {
+    } else if (
+      redirectItem.to?.reference?.value &&
+      typeof redirectItem.to?.reference?.value === 'object' &&
+      'slug' in redirectItem.to?.reference?.value
+    ) {
       redirectUrl = `${redirectItem.to?.reference?.relationTo !== 'pages' ? `/${redirectItem.to?.reference?.relationTo}` : ''}/${
-        typeof redirectItem.to?.reference?.value === 'object'
-          ? redirectItem.to?.reference?.value?.slug
-          : ''
+        redirectItem.to?.reference?.value?.slug
       }`
+    } else {
+      redirectUrl = ''
     }
 
     if (redirectUrl) redirect(redirectUrl)
