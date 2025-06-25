@@ -15,6 +15,7 @@ import PageClient from './page.client'
 import { LivePreviewListener } from '../../../components/LivePreviewListener'
 import { PayloadRedirects } from '../../../components/PayloadRedirects'
 import type { Page as PageType } from '../../../payload-types'
+import { X } from '../../../blocks/X'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
