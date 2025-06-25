@@ -14,14 +14,20 @@ const nextConfig = {
   },
   serverExternalPackages: ['payload'],
   images: {
-    domains: ['localhost'],
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '3000',
+        protocol: 'https',
+        hostname: 'yourdomain.com',
+        port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'anotherdomain.com',
+        port: '',
+        pathname: '/**',
+      },
+      // Add more as needed
     ],
     // Increase image optimization timeout
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
