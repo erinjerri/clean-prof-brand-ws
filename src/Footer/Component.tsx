@@ -14,7 +14,7 @@ export async function FooterComponent() {
 
   // Serialize the data before using it
   const serializedFooterData = serializePayloadData(footerData)
-  const navItems = serializedFooterData?.navItems || []
+  const navItems: Array<{ link: any }> = serializedFooterData?.navItems || []
 
   return (
     <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">

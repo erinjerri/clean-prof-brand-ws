@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from './ui/button'
+import { Button, type ButtonProps } from '../ui/button'
 import { cn } from '../../utilities/ui'
 import Link from 'next/link'
 import React from 'react'
@@ -33,16 +33,20 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
     url,
   } = props
 
-  const href =
-    type === 'reference' &&
-    reference?.value &&
-    typeof reference.value === 'object' &&
-    'slug' in reference.value &&
-    reference.value.slug
-      ? `${reference?.relationTo !== 'pages' ? `/${reference?.relationTo}` : ''}/${
-          reference.value.slug
-        }`
-      : url
+  let href: string | undefined = url
+  if (type === 'reference' && reference) {
+    if (
+      reference.value &&
+      typeof reference.value === 'object' &&
+      'slug' in reference.value &&
+      reference.value.slug
+    ) {
+      href = `${reference.relationTo !== 'pages' ? `/${reference.relationTo}` : ''}/${reference.value.slug}`
+    } else if (typeof reference.value === 'string' || typeof reference.value === 'number') {
+      // fallback if needed
+      href = `/${reference.relationTo}/${reference.value}`
+    }
+  }
 
   if (!href) return null
 
@@ -52,7 +56,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
   /* Ensure we don't break any styles set by richText */
   if (appearance === 'inline') {
     return (
-      <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
+      <Link className={cn(className)} href={href} {...newTabProps}>
         {label && label}
         {children && children}
       </Link>
@@ -61,7 +65,7 @@ export const CMSLink: React.FC<CMSLinkType> = (props) => {
 
   return (
     <Button asChild className={className} size={size} variant={appearance}>
-      <Link className={cn(className)} href={href || url || ''} {...newTabProps}>
+      <Link className={cn(className)} href={href} {...newTabProps}>
         {label && label}
         {children && children}
       </Link>

@@ -16,31 +16,28 @@ export const PayloadRedirects: React.FC<Props> = async ({ disableNotFound, url }
 
   const redirectItem = redirects.find((redirect) => redirect.from === url)
 
-  if (redirectItem) {
-    if (redirectItem.to?.url) {
+  if (redirectItem && typeof redirectItem.to === 'object') {
+    if ('url' in redirectItem.to && redirectItem.to.url) {
       redirect(redirectItem.to.url)
     }
 
-    let redirectUrl: string
+    let redirectUrl: string = ''
 
-    if (typeof redirectItem.to?.reference?.value === 'string') {
-      const collection = redirectItem.to?.reference?.relationTo
-      const id = redirectItem.to?.reference?.value
-
-      const document = (await getCachedDocument(collection, id)()) as Page | Post
-      redirectUrl = `${redirectItem.to?.reference?.relationTo !== 'pages' ? `/${redirectItem.to?.reference?.relationTo}` : ''}/${
-        document?.slug
-      }`
-    } else if (
-      redirectItem.to?.reference?.value &&
-      typeof redirectItem.to?.reference?.value === 'object' &&
-      'slug' in redirectItem.to?.reference?.value
+    if (
+      'reference' in redirectItem.to &&
+      redirectItem.to.reference &&
+      typeof redirectItem.to.reference === 'object'
     ) {
-      redirectUrl = `${redirectItem.to?.reference?.relationTo !== 'pages' ? `/${redirectItem.to?.reference?.relationTo}` : ''}/${
-        redirectItem.to?.reference?.value?.slug
-      }`
-    } else {
-      redirectUrl = ''
+      const ref = redirectItem.to.reference
+      if (ref.value && typeof ref.value === 'object' && 'slug' in ref.value && ref.value.slug) {
+        redirectUrl = `${ref.relationTo !== 'pages' ? `/${ref.relationTo}` : ''}/${ref.value.slug}`
+      } else if (typeof ref.value === 'string' || typeof ref.value === 'number') {
+        // fallback: fetch document and use slug if possible
+        const document = (await getCachedDocument(ref.relationTo, ref.value)()) as Page | Post
+        if (document && 'slug' in document) {
+          redirectUrl = `${ref.relationTo !== 'pages' ? `/${ref.relationTo}` : ''}/${document.slug}`
+        }
+      }
     }
 
     if (redirectUrl) redirect(redirectUrl)
